@@ -173,14 +173,13 @@ class ManipulabilityTask(Task):
                 raise ValueError("custom mask must be binary (0 or 1)")
             return mask
 
-        elif isinstance(mask, str):
+        if isinstance(mask, str):
             return self._get_mask_from_string(mask)
 
-        else:
-            raise ValueError(
-                "mask must be either a predefined string or "
-                "a custom binary numpy array"
-            )
+        raise ValueError(
+            "mask must be either a predefined string or "
+            "a custom binary numpy array"
+        )
 
     def _get_mask_from_string(
         self,
