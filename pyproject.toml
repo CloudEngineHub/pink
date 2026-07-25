@@ -130,14 +130,17 @@ sphinx-mathjax-offline = "*"
 docs-build = { cmd = "sphinx-build doc/ _build -W" }
 docs-open = { cmd = "xdg-open _build/index.html", depends-on = "docs-build" }
 
-[tool.pixi.feature.lint]
-tasks.lint = { depends-on = ["mypy", "pylint", "ruff"] }
-
-[tool.pixi.feature.mypy.dependencies]
+[tool.pixi.feature.lint.dependencies]
 mypy = ">=0.812"
+pylint = ">=2.8.2"
+ruff = ">=0.4.3"
 
-[tool.pixi.feature.mypy.tasks]
-mypy = "mypy pink --ignore-missing-imports"
+[tool.pixi.feature.lint.tasks]
+_lint-mypy = "mypy pink --ignore-missing-imports"
+_lint-pylint = "pylint pink --exit-zero --rcfile=pyproject.toml"
+_lint-ruff = "ruff check pink && ruff format --check pink"
+format = "ruff format pink"
+lint = { depends-on = ["_lint-mypy", "_lint-pylint", "_lint-ruff"] }
 
 [tool.pixi.feature.py310.dependencies]
 python = "3.10.*"
@@ -154,18 +157,6 @@ python = "3.13.*"
 [tool.pixi.feature.py314.dependencies]
 python = "3.14.*"
 
-[tool.pixi.feature.pylint.dependencies]
-pylint = ">=2.8.2"
-
-[tool.pixi.feature.pylint.tasks]
-pylint = "pylint pink --exit-zero --rcfile=pyproject.toml"
-
-[tool.pixi.feature.ruff.dependencies]
-ruff = ">=0.4.3"
-
-[tool.pixi.feature.ruff.tasks]
-ruff = "ruff check pink && ruff format --check pink"
-
 [tool.pixi.feature.test.dependencies]
 daqp = "*"
 osqp = "*"
@@ -178,7 +169,7 @@ test = "python -m unittest discover --failfast"
 [tool.pixi.environments]
 coverage = { features = ["py312", "coverage"], solve-group = "py312" }
 docs = { features = ["py312", "docs"], solve-group = "py312" }
-lint = { features = ["py312", "lint", "mypy", "pylint", "ruff"], solve-group = "py312" }
+lint = { features = ["py312", "lint"], solve-group = "py312" }
 test-py310 = { features = ["py310", "test"], solve-group = "py310" }
 test-py311 = { features = ["py311", "test"], solve-group = "py311" }
 test-py312 = { features = ["py312", "test"], solve-group = "py312" }
