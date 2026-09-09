@@ -17,7 +17,31 @@ if TYPE_CHECKING:
 
 
 class ConfigurationLimit(Limit):
-    """Subspace of the tangent space restricted to joints with position limits.
+    r"""Maintain the configuration :math:`q` between bounds.
+
+    A configuration limit can be written :math:`q_{min} \leq q \leq q_{max}`
+    when the configuration space is homeomorphic to :math:`\mathbb{R}^n`. For
+    instance, this is the case when all joints are revolute and
+    :math:`\mathcal{C} = (S^1)^n \cong \mathbb{R}^n`.
+
+    Since this is not always the case, the limit is defined on the tangent
+    space of displacements (equivalently velocities) as:
+
+    .. math::
+
+        {q \ominus q_{min}} \leq \Delta q \leq {q_{max} \ominus q}
+
+    When the current configuration :math:`q` is within bounds, the limit
+    ensures that the next configuration :math:`q \oplus \Delta q` stays within
+    bounds as well.
+
+    Note:
+        This limit assumes the current configuration :math:`q` is within
+        bounds. This is why
+        :func:`pink.configuration.Configuration.check_limits` is called with
+        the safety break by default when solving IK. If :math:`q` is out of
+        bounds, the configuration limit still works, but it may yield a large
+        displacement :math:`\Delta q` incompatible with e.g. a velocity limit.
 
     Attributes:
         config_limit_gain: gain between 0 and 1 to steer away from
