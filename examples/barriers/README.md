@@ -1,4 +1,4 @@
-Here we will have the examples of using barriers, please go over [this note](https://simeon-ned.com/blog/2024/cbf/) for more info.
+Here we will have the examples of using barriers, please go over [this note](https://web.archive.org/web/20241125170734/https://simeon-ned.com/blog/2024/cbf/) for more info.
 
 # Barrier Examples
 

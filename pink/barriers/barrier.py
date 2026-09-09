@@ -6,7 +6,7 @@
 """All barriers derive from the :class:`Barrier` base class.
 
 The formalism used in this implementation is written down in
-https://simeon-ned.com/blog/2024/cbf/
+https://web.archive.org/web/20241125170734/https://simeon-ned.com/blog/2024/cbf/
 """
 
 import abc
